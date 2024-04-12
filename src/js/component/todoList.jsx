@@ -25,7 +25,8 @@ const Todolist = () => {
       const url = "https://playground.4geeks.com/todo/todos/daviddavid1";
       const requestBody = {
         label,
-        is_done: false
+        is_done: false,
+        id: 67
       };
       const request = {
         method: "POST",
@@ -104,7 +105,7 @@ const Todolist = () => {
               {listElement}
               <span>
                 <button
-                  onClick={() => deleteTask(index + 67)}
+                  onClick={() => deleteTask(index+67)}
                   className="btn btn-sm btn-danger"
                 >
                   <i className="fas fa-trash"></i>
