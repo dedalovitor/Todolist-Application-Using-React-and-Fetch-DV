@@ -5,6 +5,10 @@ const Todolist = () => {
   const [inputValue, setInputValue] = useState("");
   const [list, setList] = useState([]);
 
+  useEffect(() => {
+    getTasks();
+  }, []);
+
   const getTasks = async () => {
     try {
       const url = "https://playground.4geeks.com/todo/users/daviddavid1";
@@ -22,6 +26,12 @@ const Todolist = () => {
 
   const addTask = async (label) => {
     try {
+      // Verificar si la tarea ya está en la lista
+      if (list.some(task => task.label === label)) {
+        alert("This task is already added!");
+        return;
+      }
+
       const url = "https://playground.4geeks.com/todo/todos/daviddavid1";
       const requestBody = {
         label,
@@ -46,6 +56,7 @@ const Todolist = () => {
     }
   };
 
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     if (inputValue.trim() === "") return;
@@ -72,9 +83,7 @@ const Todolist = () => {
     }
   };
 
-  useEffect(() => {
-    getTasks();
-  }, []);
+
 
   return (
     <div className="container d-flex justify-content-center flex-column text-center mt-5">
