@@ -11,7 +11,7 @@ const Todolist = () => {
       const response = await fetch(url);
       const responseData = await response.json();
       if (response.ok) {
-        setList(responseData.todos.map(todo => todo.label));
+        setList(responseData.todos);
       } else {
         console.error("Error fetching tasks:", responseData);
       }
@@ -25,8 +25,7 @@ const Todolist = () => {
       const url = "https://playground.4geeks.com/todo/todos/daviddavid1";
       const requestBody = {
         label,
-        is_done: false,
-        id: 67
+        is_done: false
       };
       const request = {
         method: "POST",
@@ -38,7 +37,7 @@ const Todolist = () => {
       const response = await fetch(url, request);
       const responseData = await response.json();
       if (response.ok) {
-        setList([...list, responseData.label]);
+        setList([...list, responseData]);
       } else {
         console.error("Error adding task:", responseData);
       }
@@ -63,6 +62,7 @@ const Todolist = () => {
       const response = await fetch(url, request);
       if (response.ok) {
         setList(list.filter(task => task.id !== taskId));
+        console.log(taskId);
       } else {
         const responseData = await response.json();
         console.error("Error deleting task:", responseData);
@@ -70,14 +70,11 @@ const Todolist = () => {
     } catch (error) {
       console.error("Error deleting task:", error);
     }
-    console.log(taskId);
   };
-  
-  
 
   useEffect(() => {
     getTasks();
-  }, [deleteTask]);
+  }, []);
 
   return (
     <div className="container d-flex justify-content-center flex-column text-center mt-5">
@@ -97,15 +94,15 @@ const Todolist = () => {
       <h2 className="mt-2 text-start">Pending tasks</h2>
       <div className="list">
         <ul className="list-group">
-          {list.map((listElement, index) => (
+          {list.map((task) => (
             <li
-              key={index}
+              key={task.id}
               className="list-group-item d-flex justify-content-between hidden-icon"
             >
-              {listElement}
+              {task.label}
               <span>
                 <button
-                  onClick={() => deleteTask(index+67)}
+                  onClick={() => deleteTask(task.id)}
                   className="btn btn-sm btn-danger"
                 >
                   <i className="fas fa-trash"></i>
